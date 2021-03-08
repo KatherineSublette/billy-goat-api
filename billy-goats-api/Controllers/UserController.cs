@@ -5,9 +5,9 @@ using BillyGoats.Api.Models;
 
 namespace BillyGoats.Api.Controllers
 {
-    public class UsersController : ApiControllerBase<User>
+    public class UserController : ApiControllerBase<User>
     {
-        public UsersController(IDataService<User> dataService) : base(dataService)
+        public UserController(IDataService<User> dataService) : base(dataService)
         {
         }
     }

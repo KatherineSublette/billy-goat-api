@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\billy-goats-api",
+    "\\billy-goats-api\\Controllers"
   ],
   "SelectedNode": "\\billy-goats-api.sln",
   "PreviewInSolutionExplorer": false

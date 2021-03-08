@@ -4,10 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using BillyGoats.Api.Models.DBContext;
 using BillyGoats.Api.Utils.Extensions;
 using BillyGoats.Api.Data.Services;
 using BillyGoats.Api.Data.Repositories;
+using BillyGoats.Api.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BillyGoats.Api
 {
@@ -41,6 +46,22 @@ namespace BillyGoats.Api
                 }));
             }
 
+            var tokenParameters = new TokenValidationParameters();
+            tokenParameters.ValidateAudience = false;
+            tokenParameters.ValidateIssuer = false;
+            tokenParameters.ValidateIssuerSigningKey = false;
+            tokenParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_secret_key_12345"));
+            tokenParameters.ValidateLifetime = true;
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = this.Configuration["http://localhost:5000"];
+                    options.Audience = this.Configuration["http://localhost:4200"];
+                    options.TokenValidationParameters = tokenParameters;
+                });
+
             // injecting DBContext
             services.AddScoped<DbContext, BillyGoatsDb>();
 
@@ -49,6 +70,8 @@ namespace BillyGoats.Api
 
             // injecting Generic data service
             services.AddScoped(typeof(IDataService<>), typeof(DataService<>));
+
+            services.AddScoped<IDataService<User>, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +89,11 @@ namespace BillyGoats.Api
                 app.UseCors("CorsPolicy");
             }
 
+            app.UseAuthentication();
+            
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
