@@ -10,6 +10,10 @@ namespace BillyGoats.Api.Models
     public class Guide : ModelBase
     {
         [Required]
+        public long UserId { get; set; }
+
+
+        [Required]
         [MaxLength(75)]
         public string FirstName { get; set; }
 
@@ -22,6 +26,9 @@ namespace BillyGoats.Api.Models
         public string Email { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public User User { get; set; }
+
+        //[ForeignKey("UserId")]
+        //public virtual User User { get; set; }
     }
 }

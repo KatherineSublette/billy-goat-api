@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BillyGoats.Api.Data.Repositories;
 using BillyGoats.Api.Utils;
 using BillyGoats.Api.Utils.Extensions;
+using BillyGoats.Api.Filter;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -32,14 +33,22 @@ namespace BillyGoats.Api.Data.Services
             return await this.Repo.GetByIdAsync(id, includePaths);
         }
 
-        public virtual async Task<ICollection<T>> Get(params string[] includePaths)
+        public virtual async Task<IQueryable<T>> Get(FilterRequest filter = null)
         {
-            var query = await this.Repo.GetAllAsync(includePaths);
+            var query = await this.Repo.GetAllAsync();
 
             // use AsNoTracking() for performance
             query = query.AsNoTracking();
 
-            return query.ToList();
+            if (filter == null)
+            {
+                return query;
+            }
+            else
+            {
+                return filter.ApplyFilter<T>(query);
+
+            }
         }
 
         public virtual async Task<T> Patch(JsonPatchDocument<T> objectPatch, long id)

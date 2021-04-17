@@ -10,8 +10,7 @@ namespace BillyGoats.Api.Data.Services
     public class UserService : DataService<User>
     {
  
-        public UserService(
-            IRepository<User> userRepo) : base(userRepo)
+        public UserService(IRepository<User> userRepo) : base(userRepo)
         {
         }
 

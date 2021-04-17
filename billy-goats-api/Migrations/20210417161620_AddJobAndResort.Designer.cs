@@ -3,15 +3,17 @@ using System;
 using BillyGoats.Api.Models.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BillyGoats.Api.Migrations
 {
     [DbContext(typeof(BillyGoatsDb))]
-    partial class BillyGoatsDbModelSnapshot : ModelSnapshot
+    [Migration("20210417161620_AddJobAndResort")]
+    partial class AddJobAndResort
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

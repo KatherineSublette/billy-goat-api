@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using BillyGoats.Api.Data.Services;
 using BillyGoats.Api.Utils;
+using BillyGoats.Api.Filter;
 
 namespace BillyGoats.Api.Controllers.Base
 {
@@ -30,9 +31,9 @@ namespace BillyGoats.Api.Controllers.Base
         /// <param name="expand">expand.</param>
         /// <param name="filter">Filter.</param>
         [HttpGet]
-        public virtual async Task<ActionResult<ICollection<T>>> Get([SeparatedBy(",")]string[] expand)
+        public virtual async Task<ActionResult<ICollection<T>>> Get([ModelBinder(typeof(FilterBinder))] FilterRequest filter)
         {
-            var ret = await DataService.Get(expand);
+            var ret = await DataService.Get(filter);
 
             return Ok(ret);
         }

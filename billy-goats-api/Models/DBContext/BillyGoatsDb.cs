@@ -19,6 +19,10 @@ namespace BillyGoats.Api.Models.DBContext
 
         public DbSet<Guide> Guides { get; set; }
 
+        public DbSet<Job> Jobs { get; set; }
+
+        public DbSet<Resort> Resorts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

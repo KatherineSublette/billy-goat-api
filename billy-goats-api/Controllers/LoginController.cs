@@ -21,7 +21,7 @@ namespace BillyGoats.Api.Controllers
         public virtual async Task<ActionResult> LoginPost(LoginInfo loginInfo)
         {
             // find the user by email, return 404 if you can't find it
-            var user = this.userDataService.Get().Result.Where(u => u.Email == loginInfo.Email).FirstOrDefault();
+            var user = this.userDataService.Get(null).Result.Where(u => u.Email == loginInfo.Email).FirstOrDefault();
 
             if (user == null)
             {

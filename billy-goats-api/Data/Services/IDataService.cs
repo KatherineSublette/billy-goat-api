@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BillyGoats.Api.Data.Repositories;
+using BillyGoats.Api.Filter;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace BillyGoats.Api.Data.Services
@@ -11,7 +13,7 @@ namespace BillyGoats.Api.Data.Services
 
         void Save();
         
-        Task<ICollection<T>> Get(params string[] includes);
+        Task<IQueryable<T>> Get(FilterRequest filter);
 
         Task<T> GetById(long id, params string[] includes);
 
