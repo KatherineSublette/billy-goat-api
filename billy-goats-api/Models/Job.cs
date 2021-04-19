@@ -12,9 +12,9 @@ namespace BillyGoats.Api.Models
         [Required]
         public long ResortId { get; set; }
 
-        public long GuestId { get; set; }
+        public long? GuestId { get; set; }
 
-        public long GuideId { get; set; }
+        public long? GuideId { get; set; }
 
 
         [Required]
