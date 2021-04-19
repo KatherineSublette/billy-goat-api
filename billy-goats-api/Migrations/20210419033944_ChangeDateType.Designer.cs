@@ -3,15 +3,17 @@ using System;
 using BillyGoats.Api.Models.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BillyGoats.Api.Migrations
 {
     [DbContext(typeof(BillyGoatsDb))]
-    partial class BillyGoatsDbModelSnapshot : ModelSnapshot
+    [Migration("20210419033944_ChangeDateType")]
+    partial class ChangeDateType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,10 +106,12 @@ namespace BillyGoats.Api.Migrations
                         .UseIdentityByDefaultColumn();
 
                     b.Property<bool>("Completed")
+                        .HasMaxLength(75)
                         .HasColumnType("boolean")
                         .HasColumnName("completed");
 
                     b.Property<DateTimeOffset>("Date")
+                        .HasMaxLength(75)
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("date");
 
@@ -139,51 +143,6 @@ namespace BillyGoats.Api.Migrations
                     b.HasIndex("ResortId");
 
                     b.ToTable("jobs");
-                });
-
-            modelBuilder.Entity("BillyGoats.Api.Models.Message", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("body");
-
-                    b.Property<DateTimeOffset>("Date")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date");
-
-                    b.Property<bool>("Read")
-                        .HasColumnType("boolean")
-                        .HasColumnName("read");
-
-                    b.Property<long?>("RecipientId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("recipient_id");
-
-                    b.Property<long?>("SenderId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("sender_id");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("character varying(75)")
-                        .HasColumnName("subject");
-
-                    b.HasKey("Id")
-                        .HasName("pk_messages");
-
-                    b.HasIndex("RecipientId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("messages");
                 });
 
             modelBuilder.Entity("BillyGoats.Api.Models.Resort", b =>
@@ -302,23 +261,6 @@ namespace BillyGoats.Api.Migrations
                     b.Navigation("Guide");
 
                     b.Navigation("Resort");
-                });
-
-            modelBuilder.Entity("BillyGoats.Api.Models.Message", b =>
-                {
-                    b.HasOne("BillyGoats.Api.Models.User", "recipient")
-                        .WithMany()
-                        .HasForeignKey("RecipientId")
-                        .HasConstraintName("fk_messages_users_recipient_id");
-
-                    b.HasOne("BillyGoats.Api.Models.User", "sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .HasConstraintName("fk_messages_users_sender_id");
-
-                    b.Navigation("recipient");
-
-                    b.Navigation("sender");
                 });
 #pragma warning restore 612, 618
         }

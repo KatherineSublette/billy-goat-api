@@ -22,11 +22,9 @@ namespace BillyGoats.Api.Models
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(75)]
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
 
         [Required]
-        [MaxLength(75)]
         public bool Completed { get; set; }
 
         [ForeignKey("GuestId")]

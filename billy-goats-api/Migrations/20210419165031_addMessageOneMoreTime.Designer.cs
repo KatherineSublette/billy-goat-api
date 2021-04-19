@@ -3,15 +3,17 @@ using System;
 using BillyGoats.Api.Models.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BillyGoats.Api.Migrations
 {
     [DbContext(typeof(BillyGoatsDb))]
-    partial class BillyGoatsDbModelSnapshot : ModelSnapshot
+    [Migration("20210419165031_addMessageOneMoreTime")]
+    partial class addMessageOneMoreTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,17 +160,17 @@ namespace BillyGoats.Api.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("date");
 
+                    b.Property<long?>("GuestId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("guest_id");
+
+                    b.Property<long?>("GuideId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("guide_id");
+
                     b.Property<bool>("Read")
                         .HasColumnType("boolean")
                         .HasColumnName("read");
-
-                    b.Property<long?>("RecipientId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("recipient_id");
-
-                    b.Property<long?>("SenderId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("sender_id");
 
                     b.Property<string>("Subject")
                         .IsRequired()
@@ -179,9 +181,9 @@ namespace BillyGoats.Api.Migrations
                     b.HasKey("Id")
                         .HasName("pk_messages");
 
-                    b.HasIndex("RecipientId");
+                    b.HasIndex("GuestId");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("GuideId");
 
                     b.ToTable("messages");
                 });
@@ -306,19 +308,19 @@ namespace BillyGoats.Api.Migrations
 
             modelBuilder.Entity("BillyGoats.Api.Models.Message", b =>
                 {
-                    b.HasOne("BillyGoats.Api.Models.User", "recipient")
+                    b.HasOne("BillyGoats.Api.Models.Guest", "Guest")
                         .WithMany()
-                        .HasForeignKey("RecipientId")
-                        .HasConstraintName("fk_messages_users_recipient_id");
+                        .HasForeignKey("GuestId")
+                        .HasConstraintName("fk_messages_guests_guest_id");
 
-                    b.HasOne("BillyGoats.Api.Models.User", "sender")
+                    b.HasOne("BillyGoats.Api.Models.Guide", "Guide")
                         .WithMany()
-                        .HasForeignKey("SenderId")
-                        .HasConstraintName("fk_messages_users_sender_id");
+                        .HasForeignKey("GuideId")
+                        .HasConstraintName("fk_messages_guides_guide_id");
 
-                    b.Navigation("recipient");
+                    b.Navigation("Guest");
 
-                    b.Navigation("sender");
+                    b.Navigation("Guide");
                 });
 #pragma warning restore 612, 618
         }

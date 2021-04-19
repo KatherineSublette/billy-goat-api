@@ -23,6 +23,8 @@ namespace BillyGoats.Api.Models.DBContext
 
         public DbSet<Resort> Resorts { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
