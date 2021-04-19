@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace BillyGoats.Api.Models
 {
@@ -22,25 +23,31 @@ namespace BillyGoats.Api.Models
     {
         [Required]
         [MaxLength(75)]
+        [JsonProperty("firstName")]
         public string FirstName { get; set; }
 
         [Required]
         [MaxLength(75)]
+        [JsonProperty("lastName")]
         public string LastName { get; set; }
 
         [Required]
         [MaxLength(75)]
+        [JsonProperty("email")]
         public string Email { get; set; }
 
         [Required]
         [MaxLength(75)]
+        [JsonProperty("username")]
         public string Username { get; set; }
 
         [Required]
+        [JsonProperty("userType")]
         public UserType UserType { get; set; }
 
         [Required]
         [MaxLength(255)]
+        [JsonProperty("password")]
         public string Password { get; set; }
 
         public string GenerateJwt() 
@@ -57,6 +64,7 @@ namespace BillyGoats.Api.Models
             permClaims.Add(new Claim("userid", this.Id.ToString()));
             permClaims.Add(new Claim("userType", this.UserType.ToString()));
             permClaims.Add(new Claim("email", this.Email.ToString()));
+            permClaims.Add(new Claim("user", JsonConvert.SerializeObject(this)));
 
             //Create Security Token object by giving required parameters    
             var token = new JwtSecurityToken(issuer, //Issure    

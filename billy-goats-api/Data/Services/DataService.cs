@@ -35,7 +35,9 @@ namespace BillyGoats.Api.Data.Services
 
         public virtual async Task<IQueryable<T>> Get(FilterRequest filter = null)
         {
-            var query = await this.Repo.GetAllAsync();
+            string[] expand = new string[1];
+            expand[0] = "All";
+            var query = await this.Repo.GetAllAsync(expand);
 
             // use AsNoTracking() for performance
             query = query.AsNoTracking();

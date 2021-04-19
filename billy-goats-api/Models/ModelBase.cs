@@ -13,6 +13,7 @@ namespace BillyGoats.Api.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [JsonProperty("id")]
         public virtual long Id { get; set; }
     }
 }
