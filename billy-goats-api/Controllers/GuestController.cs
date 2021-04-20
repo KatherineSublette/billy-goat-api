@@ -10,9 +10,6 @@ using System.Linq;
 
 namespace BillyGoats.Api.Controllers
 {
-    [Authorize]
-    [Route("api/guest")]
-    [Route("api/guest/userId")]
     public class GuestController : ApiControllerBase<Guest>
     {
         
